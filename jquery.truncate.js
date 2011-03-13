@@ -5,7 +5,9 @@
 			var defaults = {
 				width: 'auto',
 				after: '&hellip;',
-				center: false
+				center: false,
+				addclass: false,
+				addtitle: false
 			};
 
 			options = $.extend(defaults, options);
@@ -28,7 +30,9 @@
 					'fontFamily': element.css('fontFamily'),
 					'fontSize': element.css('fontSize'),
 					'fontStyle': element.css('fontStyle'),
-					'fontWeight': element.css('fontWeight')
+					'fontWeight': element.css('fontWeight'),
+					'text-transform': element.css('text-transform'),
+					'word-spacing': element.css('word-spacing')
 				};
 				
 				var $truncateWorker = $('<span/>').css($.merge(fontCSS, {'display': 'none'})).appendTo('body');
@@ -58,6 +62,12 @@
 					}
 					
 					element.html(truncatedText);
+					if( options.addclass ) {
+						element.addClass(options.addclass);
+					}
+					if( options.addtitle ) {
+						element.attr('title', elementText);
+					}
 				}
 
 			});
