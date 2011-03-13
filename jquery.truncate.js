@@ -9,7 +9,6 @@
 				addclass: false,
 				addtitle: false
 			};
-
 			options = $.extend(defaults, options);
 
 			return this.each(function() {
@@ -17,14 +16,11 @@
 				var element = $(this);
 								
 				if ( options.width == 'auto' ) {
-					truncateWidth = element.width()-1;
+					truncateWidth = element.width();
 				} else {
-					if( element.width() == options.width ) options.width--;
 					truncateWidth = options.width;
 				}
-				
-				var elementText   = element.text();
-				var truncatedText = elementText;
+				truncateWidth--;
 				
 				var fontCSS = {
 					'fontFamily': element.css('fontFamily'),
@@ -35,6 +31,9 @@
 					'letter-spacing': element.css('letter-spacing'),
 					'word-spacing': element.css('word-spacing')
 				};
+				
+				var elementText   = element.text();
+				var truncatedText = elementText;
 				
 				var $truncateWorker = $('<span/>').css($.merge(fontCSS, {'display': 'none'})).appendTo('body');
 				
@@ -62,13 +61,14 @@
 						truncatedText = truncatedText + options.after;
 					}
 					
-					element.html(truncatedText);
 					if( options.addclass ) {
 						element.addClass(options.addclass);
 					}
 					if( options.addtitle ) {
 						element.attr('title', elementText);
 					}
+					
+					element.html(truncatedText);
 				}
 
 			});
