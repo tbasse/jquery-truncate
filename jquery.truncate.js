@@ -14,11 +14,12 @@
 			return this.each(function() {
 
 				var element = $(this);
-								
-				if ( options.width == 'auto' ) {
+
+				if( $.fn.isNumber(options.width) ) {
+					truncateWidth = options.width;					
+				}
+				else {
 					truncateWidth = element.width();
-				} else {
-					truncateWidth = options.width;
 				}
 				truncateWidth--;
 				
@@ -73,6 +74,10 @@
 
 			});
 
+		},
+
+		isNumber: function(n) {
+			return !isNaN(parseFloat(n)) && isFinite(n);
 		}
 
 	});
