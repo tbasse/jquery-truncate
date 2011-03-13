@@ -32,6 +32,7 @@
 					'fontStyle': element.css('fontStyle'),
 					'fontWeight': element.css('fontWeight'),
 					'text-transform': element.css('text-transform'),
+					'letter-spacing': element.css('letter-spacing'),
 					'word-spacing': element.css('word-spacing')
 				};
 				
