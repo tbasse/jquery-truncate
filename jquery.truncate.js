@@ -34,7 +34,6 @@
 				};
 				
 				var elementText   = element.text();
-				var truncatedText = elementText;
 				
 				var $truncateWorker = $('<span/>').css($.merge(fontCSS, {'display': 'none'})).appendTo('body');
 				
@@ -43,24 +42,31 @@
 				$truncateWorker.text('');
 				
 				if ( originalWidth > truncateWidth ) {
-				
-					i = 1;
-					while ( $truncateWorker.width() < truncateWidth ) {
-						$truncateWorker.html(elementText.substr(0, i) + options.after);
-						if( $truncateWorker.width() > truncateWidth ) break;
-						truncatedText = elementText.substr(0, i);
-						i++;
-					}
-					$truncateWorker.remove();
-					
+
 					if (options.center) {
-						var leftText  = truncatedText.substr(0, Math.floor(truncatedText.length/2));
-						var rightText = elementText.substr(0-Math.floor(truncatedText.length/2));
-						truncatedText = leftText + options.after + rightText;
+						i = 1;
+						while ( $truncateWorker.width() < truncateWidth ) {
+							$truncateWorker.html( elementText.slice(0, i) + options.after + elementText.slice(-i) );
+							if( $truncateWorker.width() > truncateWidth ) {
+								temp = elementText.slice(0, i-1) + options.after + elementText.slice(-i);
+								$truncateWorker.html(temp);
+								if( $truncateWorker.width() <= truncateWidth ) truncatedText = temp;
+								break;
+							}
+							truncatedText = elementText.slice(0, i) + options.after + elementText.slice(-i);
+							i++;
+						}
 					}
 					else {
-						truncatedText = truncatedText + options.after;
+						i = 1;
+						while ( $truncateWorker.width() < truncateWidth ) {
+							$truncateWorker.html(elementText.slice(0, i) + options.after);
+							if( $truncateWorker.width() > truncateWidth ) break;
+							truncatedText = elementText.slice(0, i) + options.after;
+							i++;
+						}
 					}
+					$truncateWorker.remove();
 					
 					if( options.addclass ) {
 						element.addClass(options.addclass);
