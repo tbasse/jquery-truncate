@@ -16,31 +16,33 @@
 				var element = $(this);
 
 				if( $.fn.isNumber(options.width) ) {
-					truncateWidth = options.width;					
+					truncateWidth = options.width;
 				}
 				else {
 					truncateWidth = element.width();
 				}
 				truncateWidth--;
-				
+
 				var fontCSS = {
 					'fontFamily': element.css('fontFamily'),
 					'fontSize': element.css('fontSize'),
 					'fontStyle': element.css('fontStyle'),
 					'fontWeight': element.css('fontWeight'),
+					'font-variant': element.css('font-variant'),
+					'text-indent': element.css('text-indent'),
 					'text-transform': element.css('text-transform'),
 					'letter-spacing': element.css('letter-spacing'),
 					'word-spacing': element.css('word-spacing')
 				};
-				
+
 				var elementText   = element.text();
-				
+
 				var $truncateWorker = $('<span/>').css($.merge(fontCSS, {'display': 'none'})).appendTo('body');
-				
+
 				$truncateWorker.text(elementText);
 				var originalWidth = $truncateWorker.width();
 				$truncateWorker.text('');
-				
+
 				if ( originalWidth > truncateWidth ) {
 
 					if (options.center) {
@@ -67,14 +69,14 @@
 						}
 					}
 					$truncateWorker.remove();
-					
+
 					if( options.addclass ) {
 						element.addClass(options.addclass);
 					}
 					if( options.addtitle ) {
 						element.attr('title', elementText);
 					}
-					
+
 					element.html(truncatedText);
 				}
 
