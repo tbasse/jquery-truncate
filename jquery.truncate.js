@@ -4,7 +4,7 @@
 		truncate: function(options) {
 			var defaults = {
 				width: 'auto',
-				after: '&hellip;',
+				token: '&hellip;',
 				center: false,
 				addclass: false,
 				addtitle: false
@@ -49,23 +49,23 @@
 					if (options.center) {
 						i = 1;
 						while ( $truncateWorker.width() < truncateWidth ) {
-							$truncateWorker.html( elementText.slice(0, i) + options.after + elementText.slice(-i) );
+							$truncateWorker.html( elementText.slice(0, i) + options.token + elementText.slice(-i) );
 							if( $truncateWorker.width() > truncateWidth ) {
-								temp = elementText.slice(0, i-1) + options.after + elementText.slice(-i);
+								temp = elementText.slice(0, i-1) + options.token + elementText.slice(-i);
 								$truncateWorker.html(temp);
 								if( $truncateWorker.width() <= truncateWidth ) truncatedText = temp;
 								break;
 							}
-							truncatedText = elementText.slice(0, i) + options.after + elementText.slice(-i);
+							truncatedText = elementText.slice(0, i) + options.token + elementText.slice(-i);
 							i++;
 						}
 					}
 					else {
 						i = 1;
 						while ( $truncateWorker.width() < truncateWidth ) {
-							$truncateWorker.html(elementText.slice(0, i) + options.after);
+							$truncateWorker.html(elementText.slice(0, i) + options.token);
 							if( $truncateWorker.width() > truncateWidth ) break;
-							truncatedText = elementText.slice(0, i) + options.after;
+							truncatedText = elementText.slice(0, i) + options.token;
 							i++;
 						}
 					}
