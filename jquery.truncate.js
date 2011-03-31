@@ -32,12 +32,13 @@
 					'text-indent': element.css('text-indent'),
 					'text-transform': element.css('text-transform'),
 					'letter-spacing': element.css('letter-spacing'),
-					'word-spacing': element.css('word-spacing')
+					'word-spacing': element.css('word-spacing'),
+					'display': 'none'
 				};
 
-				var elementText   = element.text();
+				var elementText	  = element.text();
 
-				var $truncateWorker = $('<span/>').css($.merge(fontCSS, {'display': 'none'})).appendTo('body');
+				var $truncateWorker = $('<span/>').css(fontCSS).appendTo('body');
 
 				$truncateWorker.text(elementText);
 				var originalWidth = $truncateWorker.width();
