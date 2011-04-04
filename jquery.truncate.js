@@ -2,13 +2,13 @@
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
-    function findTruncPoint(maxWidth, text, start, end, $workerEl, token, fromEnd, count) {
-        var opt1 = '',
-            opt2 = '',
-            mid = 0;
-        count++;
+    function findTruncPoint(maxWidth, text, start, end, $workerEl, token, fromEnd) {
+        var opt1,
+            opt2,
+            mid;
+
         if (fromEnd) {
-            opt1 = start == 0 ? '' : text.slice(-start);
+            opt1 = start === 0 ? '' : text.slice(-start);
             opt2 = text.slice(-end);
         } else {
             opt1 = text.slice(0, start);
@@ -18,23 +18,22 @@
         if ($workerEl.html(opt2 + token).width() < $workerEl.html(opt1 + token).width()) {
             return end;
         }
+
         mid = parseInt((start + end) / 2, 10);
-        if (fromEnd) {
-            opt1 = text.slice(-mid);
-        } else {
-            opt1 = text.slice(0, mid);
-        }
+        opt1 = fromEnd ? text.slice(-mid) : text.slice(0, mid);
 
-
-        if ($workerEl.html(opt1 + token).width() == maxWidth) {
+        $workerEl.html(opt1 + token);
+        if ($workerEl.width() === maxWidth) {
             return mid;
         }
 
-        if ($workerEl.html(opt1 + token).width() > maxWidth) {
-            return findTruncPoint(maxWidth, text, start, (mid - 1), $workerEl, token, fromEnd, count);
+        if ($workerEl.width() > maxWidth) {
+            end = mid - 1;
         } else {
-            return findTruncPoint(maxWidth, text, (mid + 1), end, $workerEl, token, fromEnd, count);
+            start = mid + 1;
         }
+
+        return findTruncPoint(maxWidth, text, start, end, $workerEl, token, fromEnd);
     }
 
     $.fn.truncate = function (options) {
@@ -62,20 +61,20 @@
                     'display': 'none'
                 },
                 elementText = $element.text(),
-                truncatedText = '',
                 $truncateWorker = $('<span/>').css(fontCSS).html(elementText).appendTo('body'),
                 originalWidth = $truncateWorker.width(),
-                truncateWidth = isNumber(options.width) ? options.width : $element.width();
+                truncateWidth = isNumber(options.width) ? options.width : $element.width(),
+                truncatedText;
 
             if (originalWidth > truncateWidth) {
                 $truncateWorker.text('');
                 if (options.center) {
-                    truncatedText = elementText.slice(0, findTruncPoint((parseInt(truncateWidth / 2, 10) + 1), elementText, 0, elementText.length, $truncateWorker, options.token, false, 0))
+                    truncateWidth = parseInt(truncateWidth / 2, 10) + 1;
+                    truncatedText = elementText.slice(0, findTruncPoint(truncateWidth, elementText, 0, elementText.length, $truncateWorker, options.token, false))
                                     + options.token
-                                    + elementText.slice(-1 * findTruncPoint((parseInt(truncateWidth / 2, 10) + 1), elementText, 0, elementText.length, $truncateWorker, '', true, 0));
-                }
-                else {
-                    truncatedText = elementText.slice(0, findTruncPoint(truncateWidth, elementText, 0, elementText.length, $truncateWorker, options.token, false, 0)) + options.token;
+                                    + elementText.slice(-1 * findTruncPoint(truncateWidth, elementText, 0, elementText.length, $truncateWorker, '', true));
+                } else {
+                    truncatedText = elementText.slice(0, findTruncPoint(truncateWidth, elementText, 0, elementText.length, $truncateWorker, options.token, false)) + options.token;
                 }
 
                 if (options.addclass) {
