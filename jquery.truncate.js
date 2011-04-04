@@ -37,7 +37,7 @@
         }
     }
 
-    $.fn.truncatenew = function (options) {
+    $.fn.truncate = function (options) {
         var defaults = {
             width: 'auto',
             token: '&hellip;',
