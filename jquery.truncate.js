@@ -2,17 +2,14 @@
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
-    function reverseString(str) {
-        return str.split('').reverse().join('');
-    };
-    function findTruncPoint(maxWidth, text, start, end, $workerEl, token, reversed, count) {
+    function findTruncPoint(maxWidth, text, start, end, $workerEl, token, fromEnd, count) {
         var opt1 = '',
             opt2 = '',
             mid = 0;
         count++;
-        if (reversed) {
-            opt1 = reverseString(reverseString(text).slice(0, start));
-            opt2 = reverseString(reverseString(text).slice(0, end));
+        if (fromEnd) {
+            opt1 = start == 0 ? '' : text.slice(-start);
+            opt2 = text.slice(-end);
         } else {
             opt1 = text.slice(0, start);
             opt2 = text.slice(0, end);
@@ -22,8 +19,8 @@
             return end;
         }
         mid = parseInt((start + end) / 2, 10);
-        if (reversed) {
-            opt1 = reverseString(reverseString(text).slice(0, mid));
+        if (fromEnd) {
+            opt1 = text.slice(-mid);
         } else {
             opt1 = text.slice(0, mid);
         }
@@ -34,13 +31,13 @@
         }
 
         if ($workerEl.html(opt1 + token).width() > maxWidth) {
-            return findTruncPoint(maxWidth, text, start, (mid - 1), $workerEl, token, reversed, count);
+            return findTruncPoint(maxWidth, text, start, (mid - 1), $workerEl, token, fromEnd, count);
         } else {
-            return findTruncPoint(maxWidth, text, (mid + 1), end, $workerEl, token, reversed, count);
+            return findTruncPoint(maxWidth, text, (mid + 1), end, $workerEl, token, fromEnd, count);
         }
-    };
+    }
 
-    $.fn.truncate = function (options) {
+    $.fn.truncatenew = function (options) {
         var defaults = {
             width: 'auto',
             token: '&hellip;',
