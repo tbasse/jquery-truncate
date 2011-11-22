@@ -85,7 +85,7 @@
 					$element.attr('title', elementText);
 				}
 
-				$element.html(truncatedText);
+				$element.empty().append(truncatedText);
 
 			}
 
