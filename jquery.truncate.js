@@ -15,6 +15,10 @@
 			opt2 = text.slice(0, end);
 		}
 
+		if(max < $workerEl.html(token)[dimension]()) {
+			return 0;
+		}
+
 		if ($workerEl.html(opt2 + token)[dimension]() < $workerEl.html(opt1 + token)[dimension]()) {
 			return end;
 		}
