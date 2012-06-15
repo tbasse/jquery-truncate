@@ -12,6 +12,7 @@ Additionally if the text has been shortened you can set a class to be appended t
     	width: 'auto',
     	token: '&hellip;',
     	center: false,
+    	multiline: false
     });
 
 ## Options ##
@@ -21,6 +22,7 @@ Additionally if the text has been shortened you can set a class to be appended t
 - **center** (bool) Shortens at the center of the string if set to 'true' *[default: false]*
 - **addclass** (string) Add a class to the truncated strings element *[default: false]*
 - **addtitle** (bool) Add/Set "title" attribute with original text to the truncated strings element *[default: false]*
+- **multiline** (bool) Applies truncation to multi-line, wrapped text *[default: false]*
 
 ## License ##
 
