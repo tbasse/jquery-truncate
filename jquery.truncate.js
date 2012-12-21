@@ -3,6 +3,10 @@
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 	function findTruncPoint(dimension, max, text, start, end, $workerEl, token, fromEnd) {
+		var makeContent = function(content) {
+			return (fromEnd ? token : '') + content + (fromEnd ? '' : token);
+		};
+
 		var opt1,
 			opt2,
 			mid;
@@ -19,14 +23,14 @@
 			return 0;
 		}
 
-		if ($workerEl.html(opt2 + token)[dimension]() < $workerEl.html(opt1 + token)[dimension]()) {
+		if ($workerEl.html(makeContent(opt2))[dimension]() < $workerEl.html(makeContent(opt1))[dimension]()) {
 			return end;
 		}
 
 		mid = parseInt((start + end) / 2, 10);
 		opt1 = fromEnd ? text.slice(-mid) : text.slice(0, mid);
 
-		$workerEl.html(opt1 + token);
+		$workerEl.html(makeContent(opt1));
 		if ($workerEl[dimension]() === max) {
 			return mid;
 		}
@@ -48,7 +52,7 @@
 		}
 		if(typeof options.side != 'undefined')
 			switch(options.side) {
-				case 'center': case 'right':
+				case 'left': case 'center': case 'right':
 					break;
 				default:
 					// falls back to default
@@ -99,13 +103,19 @@
 
 			if (originalDim > truncateDim) {
 				$truncateWorker.text('');
-				if (options.side == 'center') {
-					truncateDim = parseInt(truncateDim / 2, 10) + 1;
-					truncatedText = elementText.slice(0, findTruncPoint(dimension, truncateDim, elementText, 0, elementText.length, $truncateWorker, options.token, false))
-									+ options.token
-									+ elementText.slice(-1 * findTruncPoint(dimension, truncateDim, elementText, 0, elementText.length, $truncateWorker, '', true));
-				} else {
-					truncatedText = elementText.slice(0, findTruncPoint(dimension, truncateDim, elementText, 0, elementText.length, $truncateWorker, options.token, false)) + options.token;
+				switch(options.side) {
+					case 'left':
+						truncatedText = options.token + elementText.slice(-1 * findTruncPoint(dimension, truncateDim, elementText, 0, elementText.length, $truncateWorker, options.token, true));
+						break;
+					case 'center':
+						truncateDim = parseInt(truncateDim / 2, 10) - 1;
+						truncatedText = elementText.slice(0, findTruncPoint(dimension, truncateDim, elementText, 0, elementText.length, $truncateWorker, options.token, false))
+										+ options.token
+										+ elementText.slice(-1 * findTruncPoint(dimension, truncateDim, elementText, 0, elementText.length, $truncateWorker, '', true));
+						break;
+					case 'right':
+						truncatedText = elementText.slice(0, findTruncPoint(dimension, truncateDim, elementText, 0, elementText.length, $truncateWorker, options.token, false)) + options.token;
+						break;
 				}
 
 				if (options.addclass) {

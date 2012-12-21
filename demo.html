@@ -48,7 +48,7 @@
 				width: 'auto',
 				after: '&hellip;',
 				side: 'right',
-				addclass: 'highlight',
+				addclass: false,
 				addtitle: true,
 			});
 
@@ -56,6 +56,14 @@
 				width: 'auto',
 				after: '&hellip;',
 				side: 'center',
+				addclass: 'highlight',
+				addtitle: false,
+			});
+
+			$('.demo3').truncate({
+				width: 'auto',
+				after: '&hellip;',
+				side: 'left',
 				addclass: false,
 				addtitle: false,
 			});
@@ -70,7 +78,7 @@ $('.demo1').truncate({
 	width: 'auto',
 	after: '&hellip;',
 	side: 'right',
-	addclass: 'highlight',
+	addclass: false,
 	addtitle: true,
 });
 </pre>
@@ -88,7 +96,7 @@ $('.demo2').truncate({
 	width: 'auto',
 	after: '&hellip;',
 	side: 'center',
-	addclass: false,
+	addclass: 'highlight',
 	addtitle: false,
 });
 </pre>
@@ -100,6 +108,24 @@ $('.demo2').truncate({
 <p class="demo2 grid600 font16">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 <p class="demo2 grid600 font24">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<pre>
+$('.demo3').truncate({
+	width: 'auto',
+	after: '&hellip;',
+	side: 'left',
+	addclass: false,
+	addtitle: false,
+});
+</pre>
+
+<p class="demo3 grid600 font12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p class="demo3 grid600 font14">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est  laborum.</p>
+
+<p class="demo3 grid600 font16">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p class="demo3 grid600 font24">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 </body>
 </html>
