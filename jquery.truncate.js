@@ -41,10 +41,24 @@
 	}
 
 	$.fn.truncate = function (options) {
+		// backward compatibility
+		if(typeof options.center != 'undefined' && typeof options.side == 'undefined') {
+			options.side = 'center';
+			delete options.center;
+		}
+		if(typeof options.side != 'undefined')
+			switch(options.side) {
+				case 'center': case 'right':
+					break;
+				default:
+					// falls back to default
+					delete options.side;
+			}
+
 		var defaults = {
 			width: 'auto',
 			token: '&hellip;',
-			center: false,
+			side: 'right',
 			addclass: false,
 			addtitle: false,
 			multiline: false
@@ -85,7 +99,7 @@
 
 			if (originalDim > truncateDim) {
 				$truncateWorker.text('');
-				if (options.center) {
+				if (options.side == 'center') {
 					truncateDim = parseInt(truncateDim / 2, 10) + 1;
 					truncatedText = elementText.slice(0, findTruncPoint(dimension, truncateDim, elementText, 0, elementText.length, $truncateWorker, options.token, false))
 									+ options.token
