@@ -44,12 +44,12 @@
 
   $.fn.truncate = function (options) {
     // backward compatibility
-    if (!!options.center && !options.side) {
+    if (options && !!options.center && !options.side) {
       options.side = 'center';
       delete options.center;
     }
 
-    if (!(/^(left|right|center)$/).test(options.side)) {
+    if (options && !(/^(left|right|center)$/).test(options.side)) {
       delete options.side;
     }
 
