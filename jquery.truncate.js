@@ -2,7 +2,8 @@
   'use strict';
   function findTruncPoint(dim, max, txt, start, end, $worker, token, reverse) {
     var makeContent = function (content) {
-      return (reverse ? token : '') + content + (reverse ? '' : token);
+      $worker.text(content);
+      $worker[reverse ? 'prepend' : 'append'](token);
     };
 
     var opt1, opt2, mid, opt1dim, opt2dim;
@@ -19,8 +20,10 @@
       return 0;
     }
 
-    opt1dim = $worker.html(makeContent(opt2))[dim]();
-    opt2dim = $worker.html(makeContent(opt1))[dim]();
+    makeContent(opt2);
+    opt1dim = $worker[dim]();
+    makeContent(opt1);
+    opt2dim = $worker[dim]();
     if (opt1dim < opt2dim) {
       return end;
     }
@@ -28,7 +31,7 @@
     mid = parseInt((start + end) / 2, 10);
     opt1 = reverse ? txt.slice(-mid) : txt.slice(0, mid);
 
-    $worker.html(makeContent(opt1));
+    makeContent(opt1);
     if ($worker[dim]() === max) {
       return mid;
     }
@@ -80,7 +83,7 @@
       var elementText = $element.text();
       var $truncateWorker = $('<span/>')
                             .css(fontCSS)
-                            .html(elementText)
+                            .text(elementText)
                             .appendTo('body');
       var originalWidth = $truncateWorker.width();
       var truncateWidth = parseInt(options.width, 10) || $element.width();
@@ -98,6 +101,7 @@
         truncateDim = truncateWidth;
       }
 
+      truncatedText = {before: "", after: ""};
       if (originalDim > truncateDim) {
         var truncPoint, truncPoint2;
         $truncateWorker.text('');
@@ -107,10 +111,7 @@
             dimension, truncateDim, elementText, 0, elementText.length,
             $truncateWorker, options.token, true
           );
-          truncatedText = [
-            options.token,
-            elementText.slice(-1 * truncPoint)
-          ].join('');
+          truncatedText.after = elementText.slice(-1 * truncPoint);
 
         } else if (options.side === 'center') {
           truncateDim = parseInt(truncateDim / 2, 10) - 1;
@@ -122,21 +123,15 @@
             dimension, truncateDim, elementText, 0, elementText.length,
             $truncateWorker, '', true
           );
-          truncatedText = [
-            elementText.slice(0, truncPoint),
-            options.token,
-            elementText.slice(-1 * truncPoint2)
-          ].join('');
+          truncatedText.before = elementText.slice(0, truncPoint);
+          truncatedText.after = elementText.slice(-1 * truncPoint2);
 
         } else if (options.side === 'right') {
           truncPoint = findTruncPoint(
             dimension, truncateDim, elementText, 0, elementText.length,
             $truncateWorker, options.token, false
           );
-          truncatedText = [
-            elementText.slice(0, truncPoint),
-            options.token
-          ].join('');
+          truncatedText.before = elementText.slice(0, truncPoint);
         }
 
         if (options.addclass) {
@@ -147,7 +142,9 @@
           $element.attr('title', elementText);
         }
 
-        $element.empty().append(truncatedText);
+        truncatedText.before = $truncateWorker.text(truncatedText.before).html();
+        truncatedText.after = $truncateWorker.text(truncatedText.after).html();
+        $element.empty().html(truncatedText.before + options.token + truncatedText.after);
 
       }
 
