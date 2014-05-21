@@ -62,29 +62,59 @@
       side: 'right',
       addclass: false,
       addtitle: false,
-      multiline: false
+      multiline: false,
+      assumeSameStyle: false
     };
     options = $.extend(defaults, options);
 
+    var fontCSS;
+    var $element;
+    var $truncateWorker;
+    
+    if (options.assumeSameStyle) {
+        $element = $(this[0]);
+        fontCSS = {
+          'fontFamily': $element.css('fontFamily'),
+          'fontSize': $element.css('fontSize'),
+          'fontStyle': $element.css('fontStyle'),
+          'fontWeight': $element.css('fontWeight'),
+          'font-variant': $element.css('font-variant'),
+          'text-indent': $element.css('text-indent'),
+          'text-transform': $element.css('text-transform'),
+          'letter-spacing': $element.css('letter-spacing'),
+          'word-spacing': $element.css('word-spacing'),
+          'display': 'none'
+        }; 
+        $truncateWorker = $('<span/>')
+                            .css(fontCSS)                            
+                            .appendTo('body');
+    }
+
     return this.each(function () {
-      var $element = $(this);
-      var fontCSS = {
-        'fontFamily': $element.css('fontFamily'),
-        'fontSize': $element.css('fontSize'),
-        'fontStyle': $element.css('fontStyle'),
-        'fontWeight': $element.css('fontWeight'),
-        'font-variant': $element.css('font-variant'),
-        'text-indent': $element.css('text-indent'),
-        'text-transform': $element.css('text-transform'),
-        'letter-spacing': $element.css('letter-spacing'),
-        'word-spacing': $element.css('word-spacing'),
-        'display': 'none'
-      };
-      var elementText = $element.text();
-      var $truncateWorker = $('<span/>')
+      $element = $(this);
+      if (!options.assumeSameStyle) {
+        fontCSS = {
+	        'fontFamily': $element.css('fontFamily'),
+	        'fontSize': $element.css('fontSize'),
+	        'fontStyle': $element.css('fontStyle'),
+	        'fontWeight': $element.css('fontWeight'),
+	        'font-variant': $element.css('font-variant'),
+	        'text-indent': $element.css('text-indent'),
+	        'text-transform': $element.css('text-transform'),
+	        'letter-spacing': $element.css('letter-spacing'),
+	        'word-spacing': $element.css('word-spacing'),
+	        'display': 'none'
+      	};
+        $truncateWorker = $('<span/>')
                             .css(fontCSS)
                             .text(elementText)
                             .appendTo('body');
+      } else {
+        $truncateWorker.text(elementText);
+      }
+        
+      var elementText = $element.text();
+      
       var originalWidth = $truncateWorker.width();
       var truncateWidth = parseInt(options.width, 10) || $element.width();
       var dimension = 'width';
@@ -148,7 +178,13 @@
 
       }
 
-      $truncateWorker.remove();
+      if (!options.assumeSameStyle) {
+      	$truncateWorker.remove();
+      }
     });
+    
+    if (options.assumeSameStyle) {
+      $truncateWorker.remove();
+    }
   };
 })(jQuery);
