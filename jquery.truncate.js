@@ -70,6 +70,7 @@
     var fontCSS;
     var $element;
     var $truncateWorker;
+    var elementText = $element.text();
     
     if (options.assumeSameStyle) {
         $element = $(this[0]);
@@ -112,8 +113,6 @@
       } else {
         $truncateWorker.text(elementText);
       }
-        
-      var elementText = $element.text();
       
       var originalWidth = $truncateWorker.width();
       var truncateWidth = parseInt(options.width, 10) || $element.width();
