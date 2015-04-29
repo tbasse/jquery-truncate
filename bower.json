@@ -1,0 +1,22 @@
+{
+  "name": "jquery-truncate",
+  "version": "1.4.1",
+  "homepage": "https://github.com/rafamaciel/jquery-truncate",
+  "authors": [
+    "Thorsten Basse <thorsten@tgdb.io>"
+  ],
+  "description": "Simple plugin that truncates a text either at its end or middle based on a given width or it's elements width.",
+  "main": "jquery.truncate.js",
+  "keywords": [
+    "jquery-truncate",
+    "truncate"
+  ],
+  "license": "custom",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
