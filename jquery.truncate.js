@@ -191,9 +191,5 @@
         $truncateWorker.remove();
       }
     });
-    
-    if (options.assumeSameStyle) {
-      $truncateWorker.remove();
-    }
   };
 })(jQuery);
